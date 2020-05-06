@@ -6,6 +6,9 @@ import GridListTileBar from '@material-ui/core/GridListTileBar';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
+import CloseIcon from '@material-ui/icons/Close';
+import Tooltip from '@material-ui/core/Tooltip';
+import Dialog from '@material-ui/core/Dialog';
 import { apodData } from '@/resources/apod';
 
 interface APOD {
@@ -40,9 +43,24 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export function App() {
     const classes = useStyles();
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
 
     return (
         <div className={classes.root}>
+            <Dialog fullScreen open={open} onClose={handleClose}>
+                <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
+                    <CloseIcon />
+                </IconButton>
+                Hello
+            </Dialog>
             <GridList cellHeight={180} className={classes.gridList} cols={3}>
                 <GridListTile key="Subheader" cols={3} style={{ height: 'auto' }}>
                     <ListSubheader component="div">APOD</ListSubheader>
@@ -54,9 +72,11 @@ export function App() {
                             title={apod.title}
                             subtitle={<span>{apod.date}</span>}
                             actionIcon={
-                                <IconButton aria-label={`info about ${apod.title}`} className={classes.icon}>
-                                    <InfoIcon />
-                                </IconButton>
+                                <Tooltip title="See more">
+                                    <IconButton aria-label={`info about ${apod.title}`} className={classes.icon} onClick={handleClickOpen}>
+                                        <InfoIcon />
+                                    </IconButton>
+                                </Tooltip>
                             }
                         />
                     </GridListTile>
