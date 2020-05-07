@@ -8,7 +8,7 @@
   "private": true,
   "scripts": {
       "build": "npx webpack --progress",
-      "build:prod": "npx webpack --mode production --progress",
+      "build:prod": "npx webpack --mode production",
       "watch": "npx webpack-dev-server --progress"
   },
   "devDependencies": {
