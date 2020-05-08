@@ -7,7 +7,8 @@ set -euo pipefail
 #
 
 DOCKER_REGISTRY="registry.heroku.com"
-DOCKER_REPOSITORY="orbiter-slack-api/web"
+# DOCKER_REPOSITORY="orbiter-slack-api/web"
+DOCKER_REPOSITORY="${DOCKER_REGISTRY}/orbiter-slack-api"
 
 APOD="${ORBITER}"/web/apod
 cd "${APOD}"
@@ -19,6 +20,8 @@ yarn
 # build app
 yarn build:prod
 
+# ZIP_NAME=
+
 echo "--- Build the Image"
 _build="${APOD}"/_build
 rm -fr "${_build}"
@@ -27,18 +30,35 @@ mkdir -p "${_build}"
 mv dist "${_build}/"
 cd "${_build}"
 
-# build image
-IMAGE_TAG="orbiter-web-apod:latest"
+#IMAGE_TAG="orbiter-web-apod:latest"
+IMAGE_TAG="$("${ORBITER}"/web/apod/ci/get-repo-id.sh orgiter-web-apod)"
 cp "${APOD}"/ci/Dockerfile .
 cp "${APOD}"/ci/nginx.tmpl .
 docker build . --tag "${IMAGE_TAG}"
 
 echo "--- Push the Image"
-# docker push "$DOCKER_REPOSITORY:IMAGE_TAG"
+docker login \
+       --username="${DOCKER_REGISTRY_USERNAME}" \
+       --password="${DOCKER_REGISTRY_PASSWORD}" \
+       "${DOCKER_REGISTRY}"
 
-heroku container:login
-docker tag "${IMAGE_TAG}" "${DOCKER_REGISTRY}/${DOCKER_REPOSITORY}"
-docker push "${DOCKER_REGISTRY}/${DOCKER_REPOSITORY}"
+docker tag "${IMAGE_TAG}" "${DOCKER_REPOSITORY}/${IMAGE_TAG}"
+docker push "${DOCKER_REPOSITORY}/${IMAGE_TAG}"
 
-echo "--- Release the latest Image"
-heroku container:release web
+echo "--- Release the Image"
+
+IMAGE_ID="$(docker inspect "${IMAGE_TAG}" --format={{.Id}})"
+echo "${IMAGE_ID}"
+
+curl -X PATCH https://api.heroku.com/apps/orbiter-slack-api/formation \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/vnd.heroku+json; version=3.docker-releases" \
+  -H "Authorization: Bearer ${HEROKU_API_TOKEN}" \
+  -d '{
+  "updates": [
+    {
+      "type": "web",
+      "docker_image": "'"${IMAGE_ID}"'"
+    }
+  ]
+}'
