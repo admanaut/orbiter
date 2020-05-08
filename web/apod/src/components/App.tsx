@@ -9,6 +9,7 @@ import InfoIcon from '@material-ui/icons/Info';
 import CloseIcon from '@material-ui/icons/Close';
 import Tooltip from '@material-ui/core/Tooltip';
 import Dialog from '@material-ui/core/Dialog';
+import Grid from '@material-ui/core/Grid';
 import { apodData } from '@/resources/apod';
 
 interface APOD {
@@ -43,24 +44,39 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export function App() {
     const classes = useStyles();
-    const [open, setOpen] = React.useState(false);
+    const [selectedAPOD, setselectedAPOD] = React.useState(null);
 
-    const handleClickOpen = () => {
-        setOpen(true);
+    const handleClickOpen = (apod: APOD) => {
+        setselectedAPOD(apod);
     };
 
     const handleClose = () => {
-        setOpen(false);
+        setselectedAPOD(null);
     };
 
     return (
         <div className={classes.root}>
-            <Dialog fullScreen open={open} onClose={handleClose}>
-                <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
-                    <CloseIcon />
-                </IconButton>
-                Hello
-            </Dialog>
+            {selectedAPOD ?
+                (<Dialog fullScreen open={selectedAPOD ? true : false} onClose={handleClose}>
+                    <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
+                        <CloseIcon />
+                    </IconButton>
+                    <p>{selectedAPOD.explanation}</p>
+                    {(() => {
+                        console.log(selectedAPOD.media_type);
+                        switch (selectedAPOD.media_type) {
+                            case "video": return (
+                                <iframe width="560" height="315" src={selectedAPOD.url}></iframe>
+                            );
+                            case "image": return (
+                                <img src={selectedAPOD.url} alt={selectedAPOD.title} />
+                            );
+                        }
+                    }
+                    )()}
+                </Dialog>)
+                : <></>
+            }
             <GridList cellHeight={180} className={classes.gridList} cols={3}>
                 <GridListTile key="Subheader" cols={3} style={{ height: 'auto' }}>
                     <ListSubheader component="div">APOD</ListSubheader>
@@ -73,7 +89,7 @@ export function App() {
                             subtitle={<span>{apod.date}</span>}
                             actionIcon={
                                 <Tooltip title="See more">
-                                    <IconButton aria-label={`info about ${apod.title}`} className={classes.icon} onClick={handleClickOpen}>
+                                    <IconButton aria-label={`info about ${apod.title}`} className={classes.icon} onClick={() => handleClickOpen(apod)}>
                                         <InfoIcon />
                                     </IconButton>
                                 </Tooltip>
