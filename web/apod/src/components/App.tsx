@@ -21,7 +21,6 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         gridList: {
             width: 750,
-            height: 450,
         },
         icon: {
             color: 'rgba(255, 255, 255, 0.54)',
@@ -39,7 +38,7 @@ export function App(): JSX.Element {
         const dt = Array.from(Array(30).keys()).map((_) => {
             d.setDate(d.getDate() - 1);
             return d.toISOString().slice(0, 10);
-        }); 
+        });
 
         function fetchAPOD(date: string): Promise<APOD> {
             return fetch("https://api.nasa.gov/planetary/apod?hd=true&date="+date+"&api_key=DEMO_KEY")
@@ -47,7 +46,7 @@ export function App(): JSX.Element {
             .then(res => parseAPOD(res));
         };
 
-        const promises = dt.map(fetchAPOD);   
+        const promises = dt.map(fetchAPOD);
         Promise.all(promises).then(setApodData);
 
     }, []);
