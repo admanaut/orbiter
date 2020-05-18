@@ -30,7 +30,7 @@ mkdir -p "${_build}"
 mv dist "${_build}/"
 cd "${_build}"
 
-IMAGE_TAG="$("${ORBITER}"/web/apod/ci/get-repo-id.sh orgiter-web-apod)"
+IMAGE_TAG="$("${ORBITER}"/ci/get-repo-id.sh orgiter-web-apod)"
 cp "${APOD}"/ci/Dockerfile .
 cp "${APOD}"/ci/nginx.tmpl .
 docker build . --tag "${IMAGE_TAG}"

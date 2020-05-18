@@ -2,6 +2,8 @@
   (:gen-class)
   (:use org.httpkit.server))
 
+;; TODO: deploy, config, state, domain, modules
+
 (defn app [req]
   {:status 200
    :headers {"Content-Type" "text/html"}
