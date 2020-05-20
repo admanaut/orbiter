@@ -7,9 +7,6 @@ set -euo pipefail
 # releases the API on Heroku via the API.
 #
 
-DOCKER_REGISTRY="registry.heroku.com"
-DOCKER_REPOSITORY="${DOCKER_REGISTRY}/orbiter-slack-api"
-
 SLACK_SERVER="${ORBITER}"/slack/server
 cd "${SLACK_SERVER}"
 
@@ -31,15 +28,7 @@ cp "${SLACK_SERVER}"/ci/Dockerfile .
 docker build . --tag "${IMAGE_TAG}"
 
 echo "--- Push the Image"
-
-"${ORBITER}"/ci/docker-login.sh
-
-docker tag "${IMAGE_TAG}" "${DOCKER_REPOSITORY}/${IMAGE_TAG}"
-docker push "${DOCKER_REPOSITORY}/${IMAGE_TAG}"
+"${ORBITER}"/ci/docker-push.sh orbiter-slack-api "${IMAGE_TAG}"
 
 echo "--- Release the Image"
-
-IMAGE_ID="$(docker inspect "${IMAGE_TAG}" --format={{.Id}})"
-echo "${IMAGE_ID}"
-
-"${ORBITER}"/ci/heroku-release.sh orbiter-slack-api "${IMAGE_ID}"
+"${ORBITER}"/ci/heroku-release.sh orbiter-slack-api "${IMAGE_TAG}"

@@ -7,10 +7,13 @@ set -euo pipefail
 # Note: HEROKU_API_TOKEN env needs to be in scope.
 #
 
-[ "$#" -lt 2 ] && { echo "ERROR: please provide an app name and an image id"; exit 1; }
+[ "$#" -lt 2 ] && { echo "ERROR: please provide an app-name and an image-name"; exit 1; }
 
 APP_NAME="$1"
-IMAGE_ID="$2"
+IMAGE_TAG="$2"
+
+IMAGE_ID="$(docker inspect "${IMAGE_TAG}" --format={{.Id}})"
+echo "${IMAGE_ID}"
 
 curl -X PATCH https://api.heroku.com/apps/"${APP_NAME}"/formation \
   -H "Content-Type: application/json" \
