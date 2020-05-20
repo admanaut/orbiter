@@ -8,4 +8,4 @@ set -euo pipefail
 docker login \
        --username="${DOCKER_REGISTRY_USERNAME}" \
        --password="${DOCKER_REGISTRY_PASSWORD}" \
-       "${DOCKER_REGISTRY}"
+       "registry.heroku.com"
