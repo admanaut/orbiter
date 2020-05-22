@@ -20,12 +20,16 @@
 ;; slack sends us what the user typed after the
 ;; slash command as plain text, so we need to
 ;; tokenise it and interpret the tokens
-(defn dispatch-command [text]
+(defn dispatch-command [r text]
   (let [[app & params] (-> text str/trim (str/split #" "))]
-    (cond
-      (= app "apod") (handle-apod params)
-      :else           handle-help)))
+    (do
+      (println r)
+      (println app)
+      (println params)
+      (cond
+        (= app "apod") (handle-apod params)
+        :else           handle-help))))
 
 (def slack-routes
   (cj/routes
-    (POST "/" [text] (dispatch-command text))))
+    (POST "/" [text :as r] (dispatch-command r text))))
