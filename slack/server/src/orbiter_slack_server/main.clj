@@ -1,29 +1,28 @@
 (ns orbiter-slack-server.main
   (:gen-class)
-  (:use [org.httpkit.server :as httpkit]
-        [orbiter-slack-server.config :as config]
+  (:use [orbiter-slack-server.config :as config]
         [orbiter-slack-server.validation :as v]
+        [orbiter-slack-server.slack :only [slack-routes]]
+        [org.httpkit.server :as httpkit]
         [compojure.route :only [files not-found]]
-        [compojure.core :only [defroutes GET POST]]
-        [clojure.data.json :as json]
-        ))
+        [compojure.core :as cj]
+        [ring.middleware.params :only [wrap-params]]))
 
-;; TODO: config, state, domain, modules
+(def base-routes
+  (cj/routes
+    (files "/static/")
+    (not-found "Page not found.")))
 
-(defn handle-help [req]
-  (do
-    (println req)
-    (println (slurp (:body req)))
-    {:status 200
-     :headers {"Content-Type" "text/html"}
-     :body "Welcome to Orbiter! here's what you can do next:"
-     }))
+;; combine all handlers into one
+(def handler
+  (cj/routes
+    slack-routes
+    base-routes))
 
-(defroutes app
-  (GET "/" [] handle-help)
-  (POST "/" [] handle-help)
-  (files "/static/")
-  (not-found "Page not found."))
+;; handler and middlewares
+(def app
+  (-> handler
+      wrap-params))
 
 (defn -main [& args]
   (let [confv (config/get-config)
