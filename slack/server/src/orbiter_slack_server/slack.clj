@@ -25,11 +25,11 @@
 (defn handle-apod [params]
   (if (empty? params)
     {:status 200
-     :headers {"Content-Type" "text/json"}
+     :headers {"Content-Type" "application/json"}
      :body (json/write-str apod-today)
      }
     {:status 200
-     :headers {"Content-Type" "text/json"}
+     :headers {"Content-Type" "application/json"}
      :body "apod for date"
      }
     )
