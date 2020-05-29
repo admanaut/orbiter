@@ -22,19 +22,11 @@
    :alt_text alt
    })
 
-(defn ctx-block
-  ([date]
-   {:type "context"
-    :elements [{:type "mrkdwn"
-                :text (str/join ["*Date:* " date])
-                }]
-    })
-  ([date copyright]
-   {:type "context"
-    :elements [{:type "mrkdwn"
-                :text (str/join ["*Date:* " date " *Copyright:* " copyright])
-                }]
-    }))
+(defn ctx-block [date copyright]
+  (-> (str/join ["*Date:* " date])
+      ((fn [t] (if copyright (str/join [t ", *Copyright:* " copyright]) t)))
+      ((fn [t] {:type "context" :elements [{:type "mrkdwn" :text t}]})))
+  )
 
 (defn blocks [& blocks] {:blocks blocks})
 
@@ -46,13 +38,13 @@
 
 (defn handle-apod [params]
   (if (empty? params)
-    (let [{:keys [title explanation date url] :as resp} (nasa/get-apod)]
+    (let [{:keys [title explanation date url copyright] :as resp} (nasa/get-apod)]
       (response
         (json/write-str
           (blocks
             (expl-block title explanation)
             (img-block title url)
-            (ctx-block date)))))
+            (ctx-block date copyright)))))
     (response "apod for date")))
 
 (def handle-help
