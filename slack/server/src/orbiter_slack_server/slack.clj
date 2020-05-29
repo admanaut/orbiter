@@ -5,12 +5,13 @@
         [clojure.data.json :as json]
         [clojure.string :as str]))
 
-(defn expl-block [title explanation]
+(defn section-block [text]
   {:type "section"
-   :text {:type "mrkdwn"
-          :text (str/join ["*" title "*" " " explanation])
-          }
+   :text {:type "mrkdwn" :text text }
    })
+
+(defn expl-block [title explanation]
+  (section-block (str/join ["*" title "*" " " explanation])))
 
 (defn img-block [alt url]
   {:type "image"
@@ -48,7 +49,12 @@
     (response "apod for date")))
 
 (def handle-help
-  (response "Welcome to Orbiter! Here's what you can do next: TODO"))
+  (response
+    (json/write-str
+      (blocks
+        (section-block "Welcome to Orbiter! Here's what you can do next:")
+        (section-block "*/orbiter apod* - to get the most recent Astronomy Picture of the Day")))
+    ))
 
 ;; slack sends us what the user typed after the
 ;; slash command as plain text, so we need to
