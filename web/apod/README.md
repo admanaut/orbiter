@@ -1,6 +1,6 @@
 # APOD
 
-Astronomy Picture of the Day.
+Astronomy Picture of the Day for the last 30 days.
 
 ![Deploy to Heroku](https://github.com/admanaut/orbiter/workflows/Deploy%20Orbiter%20Web%20APOD%20to%20Heroku/badge.svg?branch=master)
 
@@ -11,3 +11,7 @@ Built with [React hooks](https://reactjs.org/docs/hooks-overview.html), [TypeScr
 managed by [Yarn](https://classic.yarnpkg.com/en/)
 put together by [Webpack](https://webpack.js.org)
 and coded in [Emacs](https://www.gnu.org/software/emacs/)
+
+---
+
+![](./examples/orbiter_web_apod.png)
