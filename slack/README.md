@@ -19,6 +19,6 @@ Astronomy Picture of the Day
 /orbiter apod - returns the most recent APOD
 ```
 
-![](./images/orbiter_apod.png)
+![](./examples/orbiter_apod.png)
 
 ---
