@@ -11,9 +11,14 @@ We're going to have one single entry point for simplicity, the slash command.
 /orbiter [APP] - returns a list of actions and options for that app
 ```
 
-APOD
+---
+
+Astronomy Picture of the Day
 
 ```
 /orbiter apod - returns the most recent APOD
-/orbiter apod DATE - returns the most recent APOD for that date
 ```
+
+![](./images/orbiter_apod.png)
+
+---
