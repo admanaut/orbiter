@@ -8,7 +8,7 @@ resource "google_container_cluster" "primary_cluster" {
   initial_node_count = "1"
 
   master_auth {
-    username = var.linux_admin_urername
+    username = var.linux_admin_username
     password = var.linux_admin_password
   }
 }

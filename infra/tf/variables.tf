@@ -2,7 +2,7 @@ variable "gcp_credentials" {
   type = string
 }
 
-variable "linux_admin_urername" {
+variable "linux_admin_username" {
   type = string
 }
 
