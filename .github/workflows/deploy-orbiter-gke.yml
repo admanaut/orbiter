@@ -19,6 +19,8 @@ jobs:
 
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 0.12.26
 
     - name: Terraform Init
       run: cd $GITHUB_WORKSPACE/infra/tf && terraform init
