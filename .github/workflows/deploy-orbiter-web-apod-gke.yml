@@ -1,0 +1,20 @@
+name: Deploy Orbiter Web APOD to GKE
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    env:
+      GCLOUD_GCR_ACCOUNT: ${{ secrets.GCLOUD_GCR_ACCOUNT }}
+      GCLOUD_GCR_KEY: ${{ secrets.GCLOUD_GCR_KEY }}
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Init
+      run: TMP_GC_FILE="$(mktemp)"; echo "$GCLOUD_GCR_KEY" > "$TMP_GC_FILE"; echo "::set-env name=GCLOUD_GCR_KEY_FILE::$TMP_GC_FILE";
+    - uses: borales/actions-yarn@v2.0.0
+    - name: Build
+      run: ORBITER=$GITHUB_WORKSPACE $GITHUB_WORKSPACE/web/apod/ci/build.sh
