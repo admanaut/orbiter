@@ -23,4 +23,6 @@ gcloud auth print-access-token | docker login -u oauth2accesstoken --password-st
 docker tag "${IMAGE_TAG}" "${DOCKER_REPOSITORY}/${IMAGE_TAG}"
 docker push "${DOCKER_REPOSITORY}/${IMAGE_TAG}"
 
-export CONTAINER_IMAGE="${DOCKER_REPOSITORY}/${IMAGE_TAG}"
+if [ -n "$CI" ]; then
+    echo "::set-env name=CONTAINER_IMAGE::${DOCKER_REPOSITORY}/${IMAGE_TAG}";
+fi
