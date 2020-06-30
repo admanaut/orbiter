@@ -19,4 +19,4 @@ jobs:
     - name: Build
       run: ORBITER=$GITHUB_WORKSPACE $GITHUB_WORKSPACE/web/apod/ci/build.sh; echo "::set-env name=CONTAINER_IMAGE::$CONTAINER_IMAGE";
     - name: Deploy
-      run: ORBITER=$GITHUB_WORKSPACE $GITHUB_WORKSPACE/web/apod/ci/build-gke.sh
+      run: ORBITER=$GITHUB_WORKSPACE $GITHUB_WORKSPACE/web/apod/ci/deploy-gke.sh
