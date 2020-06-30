@@ -18,3 +18,6 @@ jobs:
     - uses: borales/actions-yarn@v2.0.0
     - name: Build
       run: ORBITER=$GITHUB_WORKSPACE $GITHUB_WORKSPACE/web/apod/ci/build.sh
+      run: echo "::set-env name=CONTAINER_IMAGE::$CONTAINER_IMAGE";
+    - name: Deploy
+      run: ORBITER=$GITHUB_WORKSPACE $GITHUB_WORKSPACE/web/apod/ci/build-gke.sh
