@@ -12,7 +12,7 @@ cd "${APOD}"
 
 echo "--- Release the app"
 
-gcloud auth activate-service-account "${GCLOUD_GCR_ACCOUNT}" --key-file="${GCLOUD_GCR_KEY_FILE}"
+gcloud auth activate-service-account "${GCLOUD_GKE_ACCOUNT}" --key-file="${GCLOUD_GKE_KEY_FILE}"
 
 # configure kubectl for this cluster
 gcloud container clusters get-credentials orbiter-gke-clustes --zone europe-west2-c --project orbiter-279306
