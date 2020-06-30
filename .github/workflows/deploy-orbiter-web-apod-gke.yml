@@ -17,7 +17,6 @@ jobs:
       run: TMP_GC_FILE="$(mktemp)"; echo "$GCLOUD_GCR_KEY" > "$TMP_GC_FILE"; echo "::set-env name=GCLOUD_GCR_KEY_FILE::$TMP_GC_FILE";
     - uses: borales/actions-yarn@v2.0.0
     - name: Build
-      run: ORBITER=$GITHUB_WORKSPACE $GITHUB_WORKSPACE/web/apod/ci/build.sh
-      run: echo "::set-env name=CONTAINER_IMAGE::$CONTAINER_IMAGE";
+      run: ORBITER=$GITHUB_WORKSPACE $GITHUB_WORKSPACE/web/apod/ci/build.sh; echo "::set-env name=CONTAINER_IMAGE::$CONTAINER_IMAGE";
     - name: Deploy
       run: ORBITER=$GITHUB_WORKSPACE $GITHUB_WORKSPACE/web/apod/ci/build-gke.sh
