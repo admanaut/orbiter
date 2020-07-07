@@ -22,5 +22,8 @@ jobs:
       run: ORBITER=$GITHUB_WORKSPACE $GITHUB_WORKSPACE/web/apod/ci/build.sh
     - name: Init GKE
       run: TMP_GKE_FILE="$(mktemp)"; echo "$GCLOUD_GKE_KEY" > "$TMP_GKE_FILE"; echo "::set-env name=GCLOUD_GKE_KEY_FILE::$TMP_GKE_FILE";
+    - uses: karancode/kustomize-github-action@master
+      with:
+        kustomize_version: '3.8.0'
     - name: Deploy
       run: ORBITER=$GITHUB_WORKSPACE $GITHUB_WORKSPACE/web/apod/ci/deploy-gke.sh
