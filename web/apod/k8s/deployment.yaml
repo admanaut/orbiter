@@ -1,9 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: web-apod-deployment
-  labels:
-    app: web-apod
+  name: deployment
 spec:
   replicas: 2
   selector:
@@ -16,7 +14,7 @@ spec:
     spec:
       containers:
       - name: web-apod-nginx
-        image: eu.gcr.io/orbiter-279306/27ddbbc171be93d6e35ff76eb52e239c79b5f958-orgiter-web-apod
+        image: web-apod-image
         env:
         - name: PORT
           value: "80"

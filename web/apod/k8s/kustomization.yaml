@@ -1,0 +1,13 @@
+commonLabels:
+  app: web-apod
+namePrefix: web-apod-
+resources:
+- deployment.yaml
+- service.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+images:
+- name: IMAGE
+  newName: eu.gcr.io/my-project/postgres
+- name: web-apod-image
+  newName: eu.gcr.io/orbiter-279306/27ddbbc171be93d6e35ff76eb52e239c79b5f958-orgiter-web-apod

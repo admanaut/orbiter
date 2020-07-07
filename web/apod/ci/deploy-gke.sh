@@ -2,7 +2,7 @@
 set -euo pipefail
 
 #
-# Deploy and release the image to GKE
+# Deploy and release GKE manifests
 #
 
 [ -z $CONTAINER_IMAGE ] && { echo "ERROR: CONTAINER_IMAGE required"; }
@@ -10,11 +10,17 @@ set -euo pipefail
 APOD="${ORBITER}"/web/apod
 cd "${APOD}"
 
-echo "--- Release the app"
+echo "--- Init Kubectl"
 
 gcloud auth activate-service-account "${GCLOUD_GKE_ACCOUNT}" --key-file="${GCLOUD_GKE_KEY_FILE}"
 
 # configure kubectl for this cluster
 gcloud container clusters get-credentials orbiter-gke-clustes --zone europe-west2-c --project orbiter-279306
 
-kubectl apply -f "${APOD}"/k8s/deployment.yaml -f "${APOD}"/k8s/service.yaml
+echo "--- Apply manifests"
+
+cd "${APOD}"/k8s/
+
+kustomize edit set image web-apod-image="$CONTAINER_IMAGE"
+
+kustomize build . | kubectl apply -f -
