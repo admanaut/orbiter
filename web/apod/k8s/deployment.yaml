@@ -4,6 +4,8 @@ metadata:
   name: deployment
 spec:
   replicas: 2
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: web-apod
