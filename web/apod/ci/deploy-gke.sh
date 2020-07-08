@@ -31,3 +31,6 @@ EOF
 echo "--- Build and apply manifests"
 
 kubectl kustomize . | kubectl apply -f -
+
+# wait for the rollout to finish
+kubectl rollout status deployment.apps/web-apod-deployment
