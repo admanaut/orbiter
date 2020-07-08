@@ -20,9 +20,15 @@ gcloud auth activate-service-account "${GCLOUD_GCR_ACCOUNT}" --key-file="${GCLOU
 
 gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin "${DOCKER_REGISTRY}"
 
-docker tag "${IMAGE_TAG}" "${DOCKER_REPOSITORY}/${IMAGE_TAG}"
-docker push "${DOCKER_REPOSITORY}/${IMAGE_TAG}"
+IMAGE_FQDN="${DOCKER_REPOSITORY}/${IMAGE_TAG}"
 
 if [ -n "$CI" ]; then
-    echo "::set-env name=CONTAINER_IMAGE::${DOCKER_REPOSITORY}/${IMAGE_TAG}";
+    IMAGE_FQDN="${IMAGE_FQDN}-${GITHUB_ACTION}-${GITHUB_RUN_NUMBER}"
+fi
+
+docker tag "${IMAGE_TAG}" "${IMAGE_FQDN}"
+docker push "${IMAGE_FQDN}"
+
+if [ -n "$CI" ]; then
+    echo "::set-env name=CONTAINER_IMAGE::${IMAGE_FQDN}";
 fi

@@ -26,10 +26,11 @@ mkdir -p "${_build}"
 mv dist "${_build}/"
 cd "${_build}"
 
-IMAGE_TAG="$("${ORBITER}"/ci/get-repo-id.sh orgiter-web-apod)"
+IMAGE_REPO="orgiter-web-apod"
+IMAGE_TAG="$("${ORBITER}"/ci/get-repo-id.sh ${IMAGE_REPO})"
 cp "${APOD}"/ci/Dockerfile .
 cp "${APOD}"/ci/nginx.tmpl .
-docker build . --tag "${IMAGE_TAG}"
+docker build . --tag "${IMAGE_REPO}:${IMAGE_TAG}"
 
 echo "--- Push Image to GCR"
-"${ORBITER}"/ci/docker-push-gcr.sh orbiter-279306 "${IMAGE_TAG}"
+"${ORBITER}"/ci/docker-push-gcr.sh orbiter-279306 "${IMAGE_REPO}:${IMAGE_TAG}"
