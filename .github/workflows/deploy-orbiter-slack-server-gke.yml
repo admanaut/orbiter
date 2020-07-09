@@ -1,0 +1,25 @@
+name: Deploy Orbiter Slack Server to GKE
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    env:
+      GCLOUD_GCR_ACCOUNT: ${{ secrets.GCLOUD_GCR_ACCOUNT }}
+      GCLOUD_GCR_KEY: ${{ secrets.GCLOUD_GCR_KEY }}
+      GCLOUD_GKE_ACCOUNT: ${{ secrets.GCLOUD_GKE_ACCOUNT }}
+      GCLOUD_GKE_KEY: ${{ secrets.GCLOUD_GKE_KEY }}
+    name: Build & Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Init GCR
+      run: TMP_GCR_FILE="$(mktemp)"; echo "$GCLOUD_GCR_KEY" > "$TMP_GCR_FILE"; echo "::set-env name=GCLOUD_GCR_KEY_FILE::$TMP_GCR_FILE";
+    - name: Build
+      run: ORBITER=$GITHUB_WORKSPACE $GITHUB_WORKSPACE/slack/server/ci/build.sh
+    - name: Init GKE
+      run: TMP_GKE_FILE="$(mktemp)"; echo "$GCLOUD_GKE_KEY" > "$TMP_GKE_FILE"; echo "::set-env name=GCLOUD_GKE_KEY_FILE::$TMP_GKE_FILE";
+    - name: Deploy
+      run: ORBITER=$GITHUB_WORKSPACE $GITHUB_WORKSPACE/slack/server/ci/deploy-gke.sh
