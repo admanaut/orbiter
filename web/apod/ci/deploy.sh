@@ -24,7 +24,7 @@ cd "${APOD}"/k8s/
 # patch kustomization file with latest image tag
 cat <<EOF >> kustomization.yaml
 images:
-- name: web-apod-image
+- name: container-image
   newName: $CONTAINER_IMAGE
 EOF
 

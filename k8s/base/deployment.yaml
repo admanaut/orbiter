@@ -6,17 +6,11 @@ spec:
   replicas: 1
   strategy:
     type: Recreate
-  selector:
-    matchLabels:
-      app: web-apod
   template:
-    metadata:
-      labels:
-        app: web-apod
     spec:
       containers:
-      - name: web-apod-nginx
-        image: web-apod-image
+      - name: app
+        image: container-image
         env:
         - name: PORT
           value: "80"
