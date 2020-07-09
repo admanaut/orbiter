@@ -23,4 +23,4 @@ jobs:
     - name: Init GKE
       run: TMP_GKE_FILE="$(mktemp)"; echo "$GCLOUD_GKE_KEY" > "$TMP_GKE_FILE"; echo "::set-env name=GCLOUD_GKE_KEY_FILE::$TMP_GKE_FILE";
     - name: Deploy
-      run: ORBITER=$GITHUB_WORKSPACE $GITHUB_WORKSPACE/web/apod/ci/deploy-gke.sh
+      run: ORBITER=$GITHUB_WORKSPACE $GITHUB_WORKSPACE/web/apod/ci/deploy.sh

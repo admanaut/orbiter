@@ -2,7 +2,7 @@
 
 A Webserver API serving the Orbiter Slack App.
 
-![Deploy Orbiter Slack Server to Heroku](https://github.com/admanaut/orbiter/workflows/Deploy%20Orbiter%20Slack%20Server%20to%20Heroku/badge.svg?branch=master)
+![Deploy Orbiter Slack Server to GKE](https://github.com/admanaut/orbiter/workflows/Deploy%20Orbiter%20Slack%20Server%20to%20GKE/badge.svg)
 
 ## Stack
 Written in [Clojure](https://clojure.org) managed by [Leiningen](https://leiningen.org)
