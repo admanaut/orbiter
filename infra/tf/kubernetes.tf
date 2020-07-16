@@ -17,7 +17,7 @@ resource "google_container_node_pool" "primary_nodes" {
   name = "orbiter-node-pool"
   location = "europe-west2-c"
   cluster = google_container_cluster.primary_cluster.name
-  node_count = 1
+  node_count = 2
 
   node_config {
     preemptible = true
