@@ -11,6 +11,8 @@ jobs:
       TF_VAR_linux_admin_password: ${{ secrets.TF_VAR_linux_admin_password }}
       TF_VAR_gcp_credentials: ${{ secrets.TF_VAR_gcp_credentials }}
       GOOGLE_BACKEND_CREDENTIALS: ${{ secrets.GOOGLE_BACKEND_CREDENTIALS }}
+      GCLOUD_GKE_ACCOUNT: ${{ secrets.GCLOUD_GKE_ACCOUNT }}
+      GCLOUD_GKE_KEY: ${{ secrets.GCLOUD_GKE_KEY }}
     name: Terraform cluster
     runs-on: ubuntu-latest
     steps:
