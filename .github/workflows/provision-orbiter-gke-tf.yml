@@ -25,6 +25,12 @@ jobs:
     - name: Terraform Init
       run: cd $GITHUB_WORKSPACE/infra/tf && terraform init
 
+    - name: Create GKE keys
+      run: TMP_GKE_FILE="$(mktemp)"; echo "$GCLOUD_GKE_KEY" > "$TMP_GKE_FILE"; echo "::set-env name=GCLOUD_GKE_KEY_FILE::$TMP_GKE_FILE";
+
+    - name: Provision kubectl
+      run: $GITHUB_WORKSPACE/ci/init-gke.sh orbiter-gke-clustes europe-west2-c orbiter-279306
+
     - name: Terraform Plan
       run: cd $GITHUB_WORKSPACE/infra/tf && terraform plan
 
