@@ -39,8 +39,6 @@ git -C "${repo_path}" --git-dir=.git commit -a -m "[GA] $COMMIT $COMMIT_MSG"
 
 echo "--- Push manifests"
 
-#git -C "${repo_path}" --git-dir=.git remote set-url origin https://admanaut:"${GITOPS_REPO_ACCESS_KEY}"@github.com/orbiter-gitops.git
-
 ORIGIN="https://admanaut:${GITOPS_REPO_ACCESS_KEY}@github.com/admanaut/orbiter-gitops.git"
 
 git -C "${repo_path}" --git-dir=.git push "${ORIGIN}" master
