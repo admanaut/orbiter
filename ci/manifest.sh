@@ -7,12 +7,14 @@ set -euo pipefail
 
 [ -z $CONTAINER_IMAGE ] && { echo "ERROR: CONTAINER_IMAGE required"; }
 
-APOD="${ORBITER}"/web/apod
-cd "${APOD}"
+[ "$#" -lt 2 ] && { echo "ERROR: please provide 'app-folder' and a 'manifest-name'"; exit 1; }
+
+APP="$1"
+MANIFEST="$2"
 
 echo "--- Patch manifests"
 
-cd "${APOD}"/k8s/
+cd "${APP}"/k8s/
 
 # patch kustomization file with latest image tag
 cat <<EOF >> kustomization.yaml
@@ -23,8 +25,8 @@ EOF
 
 echo "--- Build manifests"
 
-kubectl kustomize . > web-apod.yaml
+kubectl kustomize . > "${MANIFEST}"
 
 if [ -n "$CI" ]; then
-    echo "::set-env name=MANIFEST_FILE::${APOD}/k8s/web-apod.yaml";
+    echo "::set-env name=MANIFEST_FILE::${APP}/k8s/${MANIFEST}";
 fi
