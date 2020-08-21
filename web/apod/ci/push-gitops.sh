@@ -14,7 +14,7 @@ repo_path="orbiter-gitops"
 
 echo "--- Prepare gitops repo"
 
-git clone git@github.com:admanaut/orbiter-gitops.git "${repo_path}"
+git clone https://github.com/admanaut/orbiter-gitops.git "${repo_path}"
 
 git -C "${repo_path}" --git-dir=.git fetch --prune origin
 
