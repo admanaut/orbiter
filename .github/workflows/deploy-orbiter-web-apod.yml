@@ -24,7 +24,7 @@ jobs:
       run: ORBITER=$GITHUB_WORKSPACE $GITHUB_WORKSPACE/web/apod/ci/build.sh
 
     - name: Build Manifest
-      run: ORBITER=$GITHUB_WORKSPACE $GITHUB_WORKSPACE/ci/manifest.sh ${ORBITER}/web/apod web-apod.yaml
+      run: ORBITER=$GITHUB_WORKSPACE $GITHUB_WORKSPACE/ci/manifest.sh $ORBITER/web/apod web-apod.yaml
 
     - name: Release gitops
       run: ORBITER=$GITHUB_WORKSPACE $GITHUB_WORKSPACE/ci/push-gitops.sh
