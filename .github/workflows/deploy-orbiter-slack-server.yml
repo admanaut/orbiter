@@ -21,7 +21,7 @@ jobs:
       run: ORBITER=$GITHUB_WORKSPACE $GITHUB_WORKSPACE/slack/server/ci/build.sh
 
     - name: Build Manifest
-      run: ORBITER=$GITHUB_WORKSPACE $GITHUB_WORKSPACE/ci/manifest.sh $ORBITER/slack/server slack-api.yaml
+      run: ORBITER=$GITHUB_WORKSPACE $GITHUB_WORKSPACE/ci/manifest.sh $GITHUB_WORKSPACE/slack/server slack-api.yaml
 
     - name: Release gitops
       run: ORBITER=$GITHUB_WORKSPACE $GITHUB_WORKSPACE/ci/push-gitops.sh
