@@ -9,10 +9,13 @@ jobs:
     env:
       GCLOUD_GCR_ACCOUNT: ${{ secrets.GCLOUD_GCR_ACCOUNT }}
       GCLOUD_GCR_KEY: ${{ secrets.GCLOUD_GCR_KEY }}
+      GITOPS_REPO_ACCESS_KEY: ${{ secrets.GITOPS_REPO_ACCESS_KEY }}
     name: Build & Deploy
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
     - name: Init GCR
       run: TMP_GCR_FILE="$(mktemp)"; echo "$GCLOUD_GCR_KEY" > "$TMP_GCR_FILE"; echo "::set-env name=GCLOUD_GCR_KEY_FILE::$TMP_GCR_FILE";
 
@@ -24,4 +27,4 @@ jobs:
       run: ORBITER=$GITHUB_WORKSPACE $GITHUB_WORKSPACE/web/apod/ci/manifest.sh
 
     - name: Release gitops
-      run: ORBITER=$GITHUB_WORKSPACE $GITHUB_WORKSPACE/web/apod/ci/release.sh
+      run: ORBITER=$GITHUB_WORKSPACE $GITHUB_WORKSPACE/web/apod/ci/push-gitops.sh
